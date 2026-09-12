@@ -36,10 +36,10 @@ const coreValues = [
 ];
 
 const whatWeDoItems = [
-  { title: 'Embedded Systems', icon: FiCpu, gradient: 'linear-gradient(135deg, #1e3a5f, #0f172a)' },
-  { title: 'IoT Solutions', icon: FiGlobe, gradient: 'linear-gradient(135deg, #312e81, #0f172a)' },
-  { title: 'Software Development', icon: FiLayers, gradient: 'linear-gradient(135deg, #164e63, #0f172a)' },
-  { title: 'Innovation Lab', icon: FiZap, gradient: 'linear-gradient(135deg, #134e4a, #0f172a)' },
+  { title: 'Embedded Systems', icon: FiCpu, color: '#3B82F6', tag: 'Hardware + Firmware', desc: 'PCB design, microcontroller programming & real-time systems' },
+  { title: 'IoT Solutions', icon: FiGlobe, color: '#8B5CF6', tag: 'Connected Devices', desc: 'Sensor networks, cloud dashboards & edge computing' },
+  { title: 'Software Dev', icon: FiLayers, color: '#06B6D4', tag: 'Web & Mobile', desc: 'Full-stack apps, APIs & cross-platform solutions' },
+  { title: 'Innovation Lab', icon: FiZap, color: '#10B981', tag: 'R&D Projects', desc: 'Prototyping, MVPs & cutting-edge experiments' },
 ];
 
 const stats = [
@@ -106,16 +106,16 @@ const Hero = () => {
               transition={{ delay: 0.1, duration: 0.6 }}
               style={{
                 fontFamily: 'Poppins, sans-serif',
-                fontSize: 'clamp(2.2rem, 5vw, 3.5rem)',
+                fontSize: 'clamp(2rem, 5vw, 3.5rem)',
                 fontWeight: 800,
                 letterSpacing: '-0.02em',
-                lineHeight: 1.15,
+                lineHeight: 1.2,
                 marginBottom: 24,
               }}
             >
-              Innovating Today for a <br />
+              Engineering the Future,{' '}
               <span className="gradient-text-blue" style={{ WebkitBackgroundClip: 'text', backgroundClip: 'text' }}>
-                Smarter Tomorrow
+                One Chip at a Time
               </span>
             </motion.h1>
 
@@ -132,7 +132,7 @@ const Hero = () => {
                 lineHeight: 1.8,
               }}
             >
-              NexGen Logic Innovations is an emerging technology startup specializing in Embedded Systems, IoT Solutions, and Intelligent Software. We turn ideas into reliable, scalable and impactful products.
+              From concept to silicon — we design embedded systems, IoT platforms, and intelligent software that power the next wave of innovation. Built in India, engineered for the world.
             </motion.p>
 
             {/* CTA */}
@@ -226,36 +226,105 @@ const Hero = () => {
       </div>
 
       {/* Core Values Section */}
-      <div style={{ background: isDark ? '#0A1128' : '#EFF4FF', padding: '64px 0', borderTop: isDark ? '1px solid rgba(255,255,255,0.05)' : '1px solid rgba(0,0,0,0.06)', borderBottom: isDark ? '1px solid rgba(255,255,255,0.05)' : '1px solid rgba(0,0,0,0.06)', transition: 'background 0.3s ease' }}>
+      <div style={{ background: isDark ? '#0A1128' : '#EFF4FF', padding: '72px 0', borderTop: isDark ? '1px solid rgba(255,255,255,0.05)' : '1px solid rgba(0,0,0,0.06)', borderBottom: isDark ? '1px solid rgba(255,255,255,0.05)' : '1px solid rgba(0,0,0,0.06)', transition: 'background 0.3s ease' }}>
         <div className="container">
-          <div style={{ textAlign: 'center', marginBottom: 40 }}>
-            <h3 style={{ fontFamily: 'Poppins, sans-serif', fontSize: '1.5rem', fontWeight: 700, marginBottom: 4, color: isDark ? '#fff' : '#0F172A' }}>
+          <div style={{ textAlign: 'center', marginBottom: 48 }}>
+            <div style={{
+              display: 'inline-flex', alignItems: 'center', gap: 8,
+              padding: '6px 16px', borderRadius: 100,
+              background: 'rgba(59,130,246,0.1)', border: '1px solid rgba(59,130,246,0.2)',
+              color: '#60A5FA', fontSize: '0.7rem', fontWeight: 700,
+              letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: 16,
+            }}>
+              What Drives Us
+            </div>
+            <h3 style={{ fontFamily: 'Poppins, sans-serif', fontSize: 'clamp(1.5rem, 3vw, 2rem)', fontWeight: 800, color: isDark ? '#fff' : '#0F172A', marginBottom: 12 }}>
               Our Core Values
             </h3>
-            <div style={{ width: 48, height: 3, background: 'linear-gradient(90deg, #3B82F6, #06B6D4)', margin: '0 auto', borderRadius: 2 }} />
+            <p style={{ fontSize: '0.95rem', color: isDark ? 'rgba(255,255,255,0.5)' : '#64748B', maxWidth: 480, margin: '0 auto', lineHeight: 1.7 }}>
+              The principles that guide everything we build
+            </p>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 24 }}>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 16 }} className="core-values-grid">
             {coreValues.map((val, idx) => {
               const Icon = val.icon;
               return (
                 <motion.div
                   key={idx}
-                  whileHover={{ y: -6 }}
-                  className={isDark ? 'glass' : 'white-card'}
-                  style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: idx * 0.1, duration: 0.5 }}
+                  whileHover={{ y: -4, scale: 1.02 }}
+                  style={{
+                    position: 'relative',
+                    borderRadius: 20,
+                    padding: '28px 24px',
+                    background: isDark
+                      ? 'linear-gradient(145deg, rgba(17,24,39,0.9), rgba(13,21,38,0.8))'
+                      : '#FFFFFF',
+                    border: isDark
+                      ? '1px solid rgba(255,255,255,0.06)'
+                      : '1px solid rgba(0,0,0,0.06)',
+                    overflow: 'hidden',
+                    cursor: 'default',
+                    transition: 'all 0.35s ease',
+                    boxShadow: isDark
+                      ? '0 8px 32px rgba(0,0,0,0.3)'
+                      : '0 4px 20px rgba(15,23,42,0.06)',
+                  }}
                 >
+                  {/* Colored accent bar at top */}
                   <div style={{
-                    width: 48, height: 48, borderRadius: 14,
-                    background: val.bg, color: val.color,
+                    position: 'absolute',
+                    top: 0, left: 24, right: 24,
+                    height: 3,
+                    borderRadius: '0 0 3px 3px',
+                    background: `linear-gradient(90deg, ${val.color}, ${val.color}88)`,
+                  }} />
+
+                  {/* Subtle glow behind icon */}
+                  <div style={{
+                    position: 'absolute',
+                    top: 20, left: 16,
+                    width: 60, height: 60,
+                    borderRadius: '50%',
+                    background: `${val.color}15`,
+                    filter: 'blur(20px)',
+                    pointerEvents: 'none',
+                  }} />
+
+                  {/* Icon */}
+                  <div style={{
+                    width: 52, height: 52, borderRadius: 16,
+                    background: isDark ? `${val.color}18` : val.bg,
+                    color: val.color,
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     marginBottom: 16,
+                    border: `1px solid ${val.color}25`,
+                    position: 'relative',
                   }}>
                     <Icon size={24} />
                   </div>
-                  <h3 style={{ fontFamily: 'Poppins, sans-serif', fontWeight: 700, fontSize: '1.1rem', color: isDark ? '#fff' : '#0F172A', marginBottom: 8 }}>
+
+                  {/* Title */}
+                  <h4 style={{
+                    fontFamily: 'Poppins, sans-serif',
+                    fontWeight: 700, fontSize: '1.05rem',
+                    color: isDark ? '#F1F5F9' : '#0F172A',
+                    marginBottom: 8,
+                  }}>
                     {val.title}
-                  </h3>
-                  <p style={{ fontSize: '0.875rem', color: isDark ? 'rgba(255,255,255,0.6)' : '#64748B', lineHeight: 1.7 }}>
+                  </h4>
+
+                  {/* Description */}
+                  <p style={{
+                    fontSize: '0.82rem',
+                    color: isDark ? 'rgba(255,255,255,0.5)' : '#64748B',
+                    lineHeight: 1.65,
+                    margin: 0,
+                  }}>
                     {val.desc}
                   </p>
                 </motion.div>
@@ -265,72 +334,141 @@ const Hero = () => {
         </div>
       </div>
 
+      {/* Core Values Responsive */}
+      <style>{`
+        @media (min-width: 768px) {
+          .core-values-grid { grid-template-columns: repeat(4, 1fr) !important; gap: 20px !important; }
+          .core-values-grid > div { padding: 32px 28px !important; }
+        }
+      `}</style>
+
       {/* What We Do Section */}
       <div style={{ background: isDark ? '#060B18' : '#F8FAFC', padding: '80px 0', transition: 'background 0.3s ease' }}>
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 48, alignItems: 'center' }} className="what-we-do-grid">
-            
-            {/* Left */}
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }} className="what-we-do-text">
-              <h2 style={{ fontFamily: 'Poppins, sans-serif', fontSize: 'clamp(1.75rem, 3.5vw, 2.5rem)', fontWeight: 800, marginBottom: 20, color: isDark ? '#fff' : '#0F172A' }}>
-                What We Do
-              </h2>
-              <p style={{ color: isDark ? 'rgba(255,255,255,0.6)' : 'rgba(15,23,42,0.65)', fontSize: '1rem', lineHeight: 1.8, marginBottom: 32 }}>
-                From concept to deployment, we provide end-to-end solutions in embedded software, IoT products, web & mobile applications, and technical training. Our goal is to help businesses and individuals innovate, integrate and grow in the digital era.
-              </p>
-              <a
-                href="#services"
-                onClick={(e) => { e.preventDefault(); handleScroll('services'); }}
-                className="btn-nxg inline-flex"
-              >
-                <span>Read More</span>
-                <FiArrowRight size={16} />
-              </a>
+          {/* Section Header */}
+          <div style={{ textAlign: 'center', marginBottom: 48 }}>
+            <div style={{
+              display: 'inline-flex', alignItems: 'center', gap: 8,
+              padding: '6px 16px', borderRadius: 100,
+              background: isDark ? 'rgba(139,92,246,0.1)' : 'rgba(139,92,246,0.08)',
+              border: '1px solid rgba(139,92,246,0.2)',
+              color: '#A78BFA', fontSize: '0.7rem', fontWeight: 700,
+              letterSpacing: '0.15em', textTransform: 'uppercase', marginBottom: 16,
+            }}>
+              Our Expertise
             </div>
+            <h2 style={{ fontFamily: 'Poppins, sans-serif', fontSize: 'clamp(1.75rem, 3.5vw, 2.5rem)', fontWeight: 800, marginBottom: 16, color: isDark ? '#fff' : '#0F172A' }}>
+              What We Do
+            </h2>
+            <p style={{ color: isDark ? 'rgba(255,255,255,0.55)' : 'rgba(15,23,42,0.6)', fontSize: '1rem', lineHeight: 1.8, maxWidth: 560, margin: '0 auto 32px' }}>
+              End-to-end solutions from firmware to cloud — we build the tech that powers tomorrow.
+            </p>
+          </div>
 
-            {/* Right Cards Grid */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 16 }} className="what-we-do-cards">
-              {whatWeDoItems.map((item, idx) => {
-                const Icon = item.icon;
-                return (
-                  <div
-                    key={idx}
-                    onClick={() => handleScroll('services')}
-                    style={{
-                      position: 'relative',
-                      borderRadius: 20,
-                      padding: 24,
-                      height: 180,
-                      background: item.gradient,
-                      border: '1px solid rgba(255,255,255,0.08)',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      justifyContent: 'space-between',
-                      overflow: 'hidden',
-                      cursor: 'pointer',
-                      transition: 'all 0.35s ease',
-                      boxShadow: '0 8px 32px rgba(0,0,0,0.25)',
-                    }}
-                    className="whatwedo-card"
-                  >
+          {/* Cards Grid */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 16 }} className="whatwedo-grid">
+            {whatWeDoItems.map((item, idx) => {
+              const Icon = item.icon;
+              return (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: idx * 0.1, duration: 0.5 }}
+                  whileHover={{ y: -4 }}
+                  onClick={() => handleScroll('services')}
+                  style={{
+                    position: 'relative',
+                    borderRadius: 20,
+                    padding: '24px 20px',
+                    background: isDark
+                      ? 'linear-gradient(145deg, rgba(17,24,39,0.95), rgba(13,21,38,0.85))'
+                      : '#FFFFFF',
+                    border: isDark
+                      ? '1px solid rgba(255,255,255,0.06)'
+                      : '1px solid rgba(0,0,0,0.06)',
+                    borderLeft: `3px solid ${item.color}`,
+                    overflow: 'hidden',
+                    cursor: 'pointer',
+                    transition: 'all 0.35s ease',
+                    boxShadow: isDark
+                      ? '0 8px 32px rgba(0,0,0,0.3)'
+                      : '0 4px 20px rgba(15,23,42,0.06)',
+                  }}
+                >
+                  {/* Corner glow */}
+                  <div style={{
+                    position: 'absolute', top: -20, right: -20,
+                    width: 80, height: 80, borderRadius: '50%',
+                    background: `${item.color}10`, filter: 'blur(25px)',
+                    pointerEvents: 'none',
+                  }} />
+
+                  {/* Tag */}
+                  <div style={{
+                    fontSize: '0.6rem', fontWeight: 700, letterSpacing: '0.1em',
+                    textTransform: 'uppercase', color: item.color,
+                    marginBottom: 12, fontFamily: 'Inter, sans-serif',
+                  }}>
+                    {item.tag}
+                  </div>
+
+                  {/* Icon + Title row */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10 }}>
                     <div style={{
-                      width: 40, height: 40, borderRadius: 12,
-                      background: 'rgba(255,255,255,0.08)',
+                      width: 44, height: 44, borderRadius: 14, flexShrink: 0,
+                      background: isDark ? `${item.color}15` : `${item.color}10`,
+                      color: item.color,
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      color: '#22D3EE', transition: 'transform 0.3s ease',
+                      border: `1px solid ${item.color}20`,
                     }}>
                       <Icon size={22} />
                     </div>
-                    <h4 style={{ fontFamily: 'Poppins, sans-serif', fontWeight: 700, fontSize: '1.1rem', color: '#fff', transition: 'color 0.3s ease' }}>
+                    <h4 style={{
+                      fontFamily: 'Poppins, sans-serif', fontWeight: 700,
+                      fontSize: '1rem',
+                      color: isDark ? '#F1F5F9' : '#0F172A',
+                      margin: 0,
+                    }}>
                       {item.title}
                     </h4>
                   </div>
-                );
-              })}
-            </div>
+
+                  {/* Description */}
+                  <p style={{
+                    fontSize: '0.78rem',
+                    color: isDark ? 'rgba(255,255,255,0.45)' : '#64748B',
+                    lineHeight: 1.6, margin: 0,
+                  }}>
+                    {item.desc}
+                  </p>
+                </motion.div>
+              );
+            })}
+          </div>
+
+          {/* CTA */}
+          <div style={{ textAlign: 'center', marginTop: 36 }}>
+            <a
+              href="#services"
+              onClick={(e) => { e.preventDefault(); handleScroll('services'); }}
+              className="btn-nxg"
+              style={{ fontSize: '0.9rem' }}
+            >
+              <span>Explore Our Services</span>
+              <FiArrowRight size={16} />
+            </a>
           </div>
         </div>
       </div>
+
+      {/* What We Do Responsive */}
+      <style>{`
+        @media (min-width: 768px) {
+          .whatwedo-grid { grid-template-columns: repeat(4, 1fr) !important; gap: 20px !important; }
+        }
+      `}</style>
 
       {/* Stats Counter */}
       <div style={{ background: isDark ? '#080E21' : '#E8EEFF', padding: '48px 0', borderTop: isDark ? '1px solid rgba(255,255,255,0.08)' : '1px solid rgba(29,97,231,0.1)', transition: 'background 0.3s ease' }}>

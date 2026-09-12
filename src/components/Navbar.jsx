@@ -101,8 +101,12 @@ const Navbar = () => {
         initial={{ y: -80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-        className="fixed top-0 left-0 right-0 z-[900]"
         style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 900,
           background: scrolled
             ? isDark
               ? 'rgba(6, 11, 24, 0.94)'
@@ -118,24 +122,30 @@ const Navbar = () => {
           transition: 'all 0.3s ease',
         }}
       >
-        <div className="container flex items-center justify-between" style={{ height: '76px' }}>
+        <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 76 }}>
           {/* Brand Logo */}
           <a
             href="#home"
             onClick={(e) => { e.preventDefault(); scrollToSection('home'); }}
-            className="flex items-center gap-3 text-decoration-none group"
+            style={{ display: 'flex', alignItems: 'center', gap: 12, textDecoration: 'none' }}
           >
-            <div className="h-11 px-3 py-1 bg-white rounded-xl shadow-sm border border-slate-200/80 flex items-center justify-center transition-transform group-hover:scale-[1.02]">
+            <div style={{
+              height: 44, padding: '4px 12px',
+              background: '#fff', borderRadius: 12,
+              boxShadow: '0 1px 4px rgba(0,0,0,0.08)',
+              border: '1px solid rgba(226,232,240,0.8)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+            }}>
               <img 
                 src="/images/logo.png" 
                 alt="NEXGEN LOGIC INNOVATIONS" 
-                className="h-9 w-auto object-contain" 
+                style={{ height: 36, width: 'auto', objectFit: 'contain' }}
               />
             </div>
           </a>
 
           {/* Desktop Nav Links */}
-          <div className="hidden xl:flex items-center gap-6">
+          <div className="desktop-nav-links" style={{ display: 'none', alignItems: 'center', gap: 24 }}>
             {navLinks.map((link) => {
               const sectionId = link.href.replace('#', '');
               const isActive = activeSection === sectionId;
@@ -144,9 +154,15 @@ const Navbar = () => {
                   key={link.label}
                   href={link.href}
                   onClick={(e) => { e.preventDefault(); handleNavClick(link); }}
-                  className="relative text-xs font-semibold tracking-wide transition-colors py-1.5"
                   style={{
+                    position: 'relative',
+                    fontSize: '0.78rem',
+                    fontWeight: 600,
+                    letterSpacing: '0.03em',
+                    padding: '6px 0',
+                    textDecoration: 'none',
                     fontFamily: 'Inter, sans-serif',
+                    transition: 'color 0.25s',
                     color: isActive
                       ? '#1D61E7'
                       : isDark
@@ -158,7 +174,13 @@ const Navbar = () => {
                   {isActive && (
                     <motion.span
                       layoutId="activeNavIndicator"
-                      className="absolute -bottom-1 left-0 right-0 h-[2px] bg-[#1D61E7] rounded-full"
+                      style={{
+                        position: 'absolute',
+                        bottom: -1, left: 0, right: 0,
+                        height: 2,
+                        background: '#1D61E7',
+                        borderRadius: 1,
+                      }}
                       transition={{ type: 'spring', stiffness: 500, damping: 35 }}
                     />
                   )}
@@ -168,252 +190,193 @@ const Navbar = () => {
           </div>
 
           {/* Right Actions */}
-          <div className="flex items-center gap-3">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             {/* Theme Toggle */}
             <button
               onClick={toggleTheme}
               aria-label="Toggle theme"
-              className="w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-200 cursor-pointer hover:scale-105 active:scale-95"
               style={{
+                width: 40, height: 40, borderRadius: 12,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                border: 'none', cursor: 'pointer',
                 background: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)',
                 color: isDark ? '#cbd5e1' : '#475569',
+                transition: 'all 0.2s',
               }}
             >
               {isDark ? <FiSun size={18} /> : <FiMoon size={18} />}
             </button>
 
-            {/* Get in Touch CTA (Desktop only to prevent header crowding on mobile) */}
+            {/* Get in Touch CTA - Desktop */}
             <a
               href="#contact"
               onClick={(e) => { e.preventDefault(); scrollToSection('contact'); }}
-              className="btn-nxg hidden xl:inline-flex"
+              className="btn-nxg desktop-cta-btn"
+              style={{ display: 'none' }}
             >
               <span>Get in Touch</span>
               <FiArrowRight size={15} />
             </a>
 
+            {/* Hamburger - Mobile */}
+            <button
+              className="mobile-hamburger"
+              onClick={() => setMenuOpen(!menuOpen)}
+              aria-label="Toggle menu"
+              style={{
+                display: 'flex',
+                width: 40, height: 40, borderRadius: 12,
+                alignItems: 'center', justifyContent: 'center',
+                border: 'none', cursor: 'pointer',
+                background: menuOpen ? '#1D61E7' : isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)',
+                color: menuOpen ? '#fff' : isDark ? '#cbd5e1' : '#475569',
+                transition: 'all 0.2s',
+              }}
+            >
+              {menuOpen ? <FiX size={20} /> : <FiMenu size={20} />}
+            </button>
           </div>
         </div>
       </motion.nav>
 
-      {/* ── Radial Arc FAB Navigation (Mobile only) ── */}
-      <RadialArcNav
-        navLinks={navLinks}
-        activeSection={activeSection}
-        scrollToSection={scrollToSection}
-        isDark={isDark}
-        menuOpen={menuOpen}
-        setMenuOpen={setMenuOpen}
-      />
-    </>
-  );
-};
-
-/* Radial Arc: fan-out semicircle nav */
-const COLORS = [
-  '#3B82F6','#06B6D4','#6366F1','#10B981',
-  '#F59E0B','#8B5CF6','#EF4444','#EC4899',
-];
-
-const RadialArcNav = ({ navLinks, activeSection, scrollToSection, isDark, menuOpen, setMenuOpen }) => {
-  const RADIUS = 105;   // px from center of FAB to center of each icon
-  const FAB_SIZE = 58;  // px
-
-  // 8 items fanned across 170° arc centred at top (90° = straight up)
-  // Angles go from 180+5 to 360-5 (left to right, above the button)
-  const total = navLinks.length;
-  const startAngle = 190;  // degrees (slightly past left)
-  const endAngle   = 350;  // degrees (slightly before right)
-  const step = (endAngle - startAngle) / (total - 1);
-
-  const getPos = (index) => {
-    const angleDeg = startAngle + index * step;
-    const rad = (angleDeg * Math.PI) / 180;
-    return {
-      x: Math.cos(rad) * RADIUS,
-      y: Math.sin(rad) * RADIUS,
-    };
-  };
-
-  const activeLink = navLinks.find(l => l.href.replace('#','') === activeSection) || navLinks[0];
-  const ActiveIcon = activeLink.icon;
-
-  return (
-    <div
-      className="xl:hidden"
-      style={{
-        position: 'fixed',
-        bottom: 28,
-        left: '50%',
-        transform: 'translateX(-50%)',
-        zIndex: 1000,
-        width: FAB_SIZE,
-        height: FAB_SIZE,
-      }}
-    >
-      {/* Backdrop blur overlay when open */}
+      {/* ── Mobile Fullscreen Drawer ── */}
       <AnimatePresence>
         {menuOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setMenuOpen(false)}
-            style={{
-              position: 'fixed',
-              inset: 0,
-              zIndex: -1,
-              background: isDark
-                ? 'rgba(3, 6, 18, 0.6)'
-                : 'rgba(15, 23, 42, 0.25)',
-              backdropFilter: 'blur(6px)',
-              WebkitBackdropFilter: 'blur(6px)',
-            }}
-          />
-        )}
-      </AnimatePresence>
-
-      {/* Arc nav items */}
-      <AnimatePresence>
-        {menuOpen && navLinks.map((item, idx) => {
-          const { x, y } = getPos(idx);
-          const sid = item.href.replace('#','');
-          const isAct = activeSection === sid;
-          const Icon = item.icon;
-          const color = COLORS[idx % COLORS.length];
-
-          return (
+          <>
+            {/* Backdrop */}
             <motion.div
-              key={sid}
-              initial={{ opacity: 0, x: 0, y: 0, scale: 0.3 }}
-              animate={{ opacity: 1, x, y: -y, scale: 1 }}
-              exit={{ opacity: 0, x: 0, y: 0, scale: 0.3 }}
-              transition={{
-                type: 'spring',
-                stiffness: 380,
-                damping: 22,
-                delay: idx * 0.04,
-              }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setMenuOpen(false)}
+              className="mobile-drawer-overlay"
               style={{
-                position: 'absolute',
-                left: '50%',
-                top: '50%',
-                marginLeft: -24,
-                marginTop: -24,
-                zIndex: 10,
+                position: 'fixed',
+                inset: 0,
+                zIndex: 899,
+                background: isDark ? 'rgba(3,6,18,0.5)' : 'rgba(15,23,42,0.2)',
+                backdropFilter: 'blur(4px)',
+                WebkitBackdropFilter: 'blur(4px)',
+              }}
+            />
+            {/* Drawer */}
+            <motion.div
+              initial={{ y: '100%' }}
+              animate={{ y: 0 }}
+              exit={{ y: '100%' }}
+              transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+              className="mobile-drawer-panel"
+              style={{
+                position: 'fixed',
+                bottom: 0,
+                left: 0,
+                right: 0,
+                zIndex: 901,
+                background: isDark ? '#0D1526' : '#FFFFFF',
+                borderTop: isDark ? '1px solid rgba(255,255,255,0.08)' : '1px solid rgba(0,0,0,0.08)',
+                borderRadius: '24px 24px 0 0',
+                padding: '16px 0 32px',
+                maxHeight: '70vh',
+                overflowY: 'auto',
               }}
             >
-              {/* Tooltip label */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.8 }}
-                transition={{ delay: idx * 0.04 + 0.12 }}
-                style={{
-                  position: 'absolute',
-                  bottom: 52,
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                  whiteSpace: 'nowrap',
-                  background: isDark ? 'rgba(15,23,42,0.95)' : 'rgba(255,255,255,0.97)',
-                  color: isDark ? '#E2E8F0' : '#0F172A',
-                  fontSize: 9,
-                  fontWeight: 700,
-                  letterSpacing: '0.05em',
-                  padding: '3px 8px',
-                  borderRadius: 99,
-                  border: `1px solid ${color}44`,
-                  boxShadow: `0 4px 12px ${color}33`,
-                  pointerEvents: 'none',
-                }}
-              >
-                {item.label}
-              </motion.div>
+              {/* Drag indicator */}
+              <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 16 }}>
+                <div style={{ width: 40, height: 4, borderRadius: 2, background: isDark ? 'rgba(255,255,255,0.15)' : 'rgba(0,0,0,0.12)' }} />
+              </div>
 
-              {/* Icon button */}
-              <button
-                onClick={() => { scrollToSection(sid); setMenuOpen(false); }}
-                style={{
-                  width: 48,
-                  height: 48,
-                  borderRadius: '50%',
-                  border: 'none',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  background: isAct
-                    ? color
-                    : isDark
-                    ? 'rgba(15,23,42,0.9)'
-                    : 'rgba(255,255,255,0.97)',
-                  color: isAct ? '#fff' : color,
-                  boxShadow: isAct
-                    ? `0 0 0 3px ${color}55, 0 8px 24px ${color}66`
-                    : `0 4px 16px rgba(0,0,0,0.25), 0 0 0 1.5px ${color}33`,
-                  transition: 'box-shadow 0.2s, background 0.2s',
-                }}
-              >
-                <Icon size={20} />
-              </button>
+              {/* Nav Items */}
+              <div style={{ padding: '0 20px' }}>
+                {navLinks.map((item) => {
+                  const sid = item.href.replace('#','');
+                  const isAct = activeSection === sid;
+                  const Icon = item.icon;
+                  return (
+                    <button
+                      key={sid}
+                      onClick={() => { scrollToSection(sid); setMenuOpen(false); }}
+                      style={{
+                        width: '100%',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 16,
+                        padding: '14px 16px',
+                        marginBottom: 4,
+                        borderRadius: 16,
+                        border: 'none',
+                        cursor: 'pointer',
+                        textAlign: 'left',
+                        transition: 'all 0.2s',
+                        background: isAct
+                          ? isDark ? 'rgba(29,97,231,0.12)' : 'rgba(29,97,231,0.06)'
+                          : 'transparent',
+                        color: isDark ? '#fff' : '#0F172A',
+                      }}
+                    >
+                      <div style={{
+                        width: 44, height: 44, borderRadius: 14,
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        flexShrink: 0,
+                        background: isAct ? '#1D61E7' : isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)',
+                        color: isAct ? '#fff' : isDark ? '#94A3B8' : '#64748B',
+                        transition: 'all 0.2s',
+                      }}>
+                        <Icon size={20} />
+                      </div>
+                      <div>
+                        <div style={{
+                          fontSize: '0.92rem',
+                          fontWeight: isAct ? 700 : 600,
+                          color: isAct ? '#1D61E7' : isDark ? '#E2E8F0' : '#1E293B',
+                          fontFamily: 'Inter, sans-serif',
+                        }}>
+                          {item.label}
+                        </div>
+                        <div style={{
+                          fontSize: '0.72rem',
+                          color: isDark ? 'rgba(255,255,255,0.4)' : '#94A3B8',
+                          marginTop: 2,
+                        }}>
+                          {item.subtitle}
+                        </div>
+                      </div>
+                      {isAct && (
+                        <div style={{
+                          marginLeft: 'auto', width: 8, height: 8,
+                          borderRadius: '50%', background: '#1D61E7', flexShrink: 0,
+                        }} />
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Contact CTA */}
+              <div style={{ padding: '16px 20px 0' }}>
+                <a
+                  href="#contact"
+                  onClick={(e) => { e.preventDefault(); scrollToSection('contact'); setMenuOpen(false); }}
+                  className="btn-nxg"
+                  style={{ width: '100%', justifyContent: 'center', padding: '14px 0', fontSize: '0.92rem' }}
+                >
+                  <span>Get in Touch</span>
+                  <FiArrowRight size={16} />
+                </a>
+              </div>
             </motion.div>
-          );
-        })}
+          </>
+        )}
       </AnimatePresence>
 
-      {/* FAB trigger button */}
-      <motion.button
-        whileTap={{ scale: 0.88 }}
-        onClick={() => setMenuOpen(!menuOpen)}
-        style={{
-          width: FAB_SIZE,
-          height: FAB_SIZE,
-          borderRadius: '50%',
-          border: 'none',
-          cursor: 'pointer',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          position: 'relative',
-          zIndex: 20,
-          background: menuOpen
-            ? 'linear-gradient(135deg, #EF4444, #DC2626)'
-            : 'linear-gradient(135deg, #2563EB, #0891B2)',
-          boxShadow: menuOpen
-            ? '0 0 0 8px rgba(239,68,68,0.15), 0 12px 32px rgba(239,68,68,0.5)'
-            : '0 0 0 8px rgba(37,99,235,0.15), 0 12px 32px rgba(37,99,235,0.55)',
-          transition: 'background 0.35s, box-shadow 0.35s',
-        }}
-      >
-        {/* Pulse ring */}
-        {!menuOpen && (
-          <motion.span
-            animate={{ scale: [1, 1.6, 1], opacity: [0.5, 0, 0.5] }}
-            transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
-            style={{
-              position: 'absolute',
-              inset: 0,
-              borderRadius: '50%',
-              border: '2px solid rgba(37,99,235,0.5)',
-              pointerEvents: 'none',
-            }}
-          />
-        )}
-
-        {/* Icon */}
-        <motion.div
-          animate={{ rotate: menuOpen ? 45 : 0 }}
-          transition={{ type: 'spring', stiffness: 400, damping: 22 }}
-          style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-        >
-          {menuOpen ? (
-            <FiX size={24} color="#fff" />
-          ) : (
-            <ActiveIcon size={22} color="#fff" />
-          )}
-        </motion.div>
-      </motion.button>
-    </div>
+      {/* Responsive CSS */}
+      <style>{`
+        @media (min-width: 1024px) {
+          .desktop-nav-links { display: flex !important; }
+          .desktop-cta-btn { display: inline-flex !important; }
+          .mobile-hamburger { display: none !important; }
+        }
+      `}</style>
+    </>
   );
 };
 
@@ -436,4 +399,3 @@ const ScrollProgressBar = () => {
 };
 
 export default Navbar;
-
